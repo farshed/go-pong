@@ -51,6 +51,7 @@ func (ball *ball) update(left, right *paddle) {
 }
 
 func (ball *ball) reset() {
+	state = paused
 	ball.x = winWidth / 2
 	ball.y = winHeight / 2
 	ball.xv = -ball.xv

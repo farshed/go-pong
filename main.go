@@ -14,7 +14,13 @@ const (
 	scorePos2 = (winWidth / 2) + (winWidth * 0.1)
 )
 
+const (
+	playing = iota
+	paused
+)
+
 var pixels = make([]byte, winWidth*winHeight*4)
+var state = paused
 
 type color struct {
 	r, g, b, a byte
@@ -66,12 +72,33 @@ func main() {
 				return
 			}
 		}
-		clearScreen()
-		p1.update(keyState)
-		// p1.autoPlay(&b)
-		bot.autoPlay(&b)
-		b.update(&p1, &bot)
 
+		// play/pause
+		if keyState[sdl.SCANCODE_SPACE] != 0 {
+			sdl.Delay(100)
+			if state == playing {
+				state = paused
+			} else {
+				state = playing
+			}
+		}
+
+		if state == playing {
+			p1.update(keyState)
+			// p1.autoPlay(&b)
+			bot.autoPlay(&b)
+			b.update(&p1, &bot)
+		}
+
+		// reset game
+		if p1.score == 9 || bot.score == 9 {
+			state = paused
+			p1.score = 0
+			bot.score = 0
+			b.reset()
+		}
+
+		clearScreen()
 		drawNumber(p1.score, position{scorePos1, 70})
 		drawNumber(bot.score, position{scorePos2, 70})
 		p1.draw()
@@ -81,6 +108,7 @@ func main() {
 		renderer.Copy(texture, nil, nil)
 		renderer.Present()
 
+		// cap framerate tp 100fps
 		elapsedTime := uint32(time.Since(frameStart).Milliseconds())
 		if elapsedTime < 10 {
 			sdl.Delay(10 - elapsedTime)
