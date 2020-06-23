@@ -81,7 +81,7 @@ func drawNumber(n int, pos position) {
 		if v == 1 {
 			for y := startY; y < startY+fontSize; y++ {
 				for x := startX; x < startX+fontSize; x++ {
-					drawPixel(x, y, color{255, 255, 255, 1})
+					drawPixel(x, y, color{0, 173, 216, 1})
 				}
 			}
 		}

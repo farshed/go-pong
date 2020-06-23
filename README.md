@@ -4,12 +4,13 @@ A rudimentary single-player implementation of [Atari Pong](https://en.wikipedia.
 
 ## Play
 
--  [Download](https://github.com/farshed/go-pong/raw/master/bin/pong) and run executable binary OR clone repo and run `go run .`
--  Press <kbd>space</kbd> to play and pause
+-  [Download](https://github.com/farshed/go-pong/raw/master/bin/pong) and run compiled binary OR clone repo and run `go run .`
+-  Press <kbd>space</kbd> to start/pause/resume
 -  Use mouse or <kbd>up</kbd> and <kbd>down</kbd> buttons to move the paddle
+-  Press <kbd>esc</kbd> to quit the game
 
 ## Todo?
 
--  [] Multiplayer support
--  [] AI shouldn't be invincible
--  [] Make gameplay more robust
+-  [ ] Multiplayer support
+-  [ ] AI shouldn't be invincible
+-  [ ] Make gameplay more robust
