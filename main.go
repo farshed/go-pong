@@ -67,15 +67,15 @@ func main() {
 	for {
 		frameStart := time.Now()
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
-			switch t := event.(type) {
+			switch d := event.(type) {
 			case *sdl.MouseMotionEvent:
-				if t.YRel < 0 {
+				if d.YRel < 0 {
 					if p1.y-(p1.height/2) > 0 {
-						p1.y += int(t.YRel)
+						p1.y += int(d.YRel)
 					}
-				} else if t.YRel > 0 {
+				} else if d.YRel > 0 {
 					if p1.y+(p1.height/2) < winHeight {
-						p1.y += int(t.YRel)
+						p1.y += int(d.YRel)
 					}
 				}
 			case *sdl.QuitEvent:
