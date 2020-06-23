@@ -67,7 +67,17 @@ func main() {
 	for {
 		frameStart := time.Now()
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
-			switch event.(type) {
+			switch t := event.(type) {
+			case *sdl.MouseMotionEvent:
+				if t.YRel < 0 {
+					if p1.y-(p1.height/2) > 0 {
+						p1.y += int(t.YRel)
+					}
+				} else if t.YRel > 0 {
+					if p1.y+(p1.height/2) < winHeight {
+						p1.y += int(t.YRel)
+					}
+				}
 			case *sdl.QuitEvent:
 				return
 			}
@@ -107,7 +117,7 @@ func main() {
 		renderer.Copy(texture, nil, nil)
 		renderer.Present()
 
-		// cap framerate tp 100fps
+		// cap framerate to 100fps
 		elapsedTime := uint32(time.Since(frameStart).Milliseconds())
 		if elapsedTime < 10 {
 			sdl.Delay(10 - elapsedTime)
