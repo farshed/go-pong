@@ -10,8 +10,8 @@ const (
 	winWidth  = 800
 	winHeight = 600
 	fontSize  = 4
-	scorePos1 = (winWidth / 2) - (winWidth * 0.1)
-	scorePos2 = (winWidth / 2) + (winWidth * 0.1)
+	scorePos1 = (winWidth / 2) - (winWidth * 0.15)
+	scorePos2 = (winWidth / 2) + (winWidth * 0.15)
 )
 
 const (
@@ -58,7 +58,7 @@ func main() {
 	texture, _ := renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_STREAMING, int32(winWidth), int32(winHeight))
 	defer texture.Destroy()
 
-	p1 := paddle{position{25, 300}, 12, 60, 10, color{255, 255, 255, 1}, 0}
+	p1 := paddle{position{25, 300}, 15, 60, 10, color{255, 255, 255, 1}, 0}
 	bot := paddle{position{775, 300}, 10, 60, 10, color{255, 255, 255, 1}, 0}
 	b := ball{position{400, 300}, 10, 5, 5, color{255, 255, 255, 1}}
 

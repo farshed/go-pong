@@ -39,13 +39,15 @@ func (ball *ball) update(left, right *paddle) {
 	}
 
 	// paddle collision
-	if ball.x-(ball.radius/2) <= left.x+(left.width/2) {
+	if ball.x-ball.radius <= left.x+(left.width/2) {
 		if ball.y > left.y-(left.height/2) && ball.y < left.y+(left.height/2) {
 			ball.xv = -ball.xv
+			ball.x = left.x + (left.width / 2) + ball.radius
 		}
-	} else if ball.x+(ball.radius/2) >= right.x-(right.width/2) {
+	} else if ball.x+ball.radius >= right.x-(right.width/2) {
 		if ball.y > right.y-(right.height/2) && ball.y < right.y+(right.height/2) {
 			ball.xv = -ball.xv
+			ball.x = right.x - (left.width / 2) - ball.radius
 		}
 	}
 }
