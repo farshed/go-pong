@@ -2,8 +2,6 @@
 
 A rudimentary implementation of [Atari Pong](https://en.wikipedia.org/wiki/Pong) using Golang and SDL2.
 
-<br>
-
 ## Play
 
 -  [Download](https://github.com/farshed/go-pong/raw/master/bin/pong) and run executable binary OR clone repo and run `go run .`
