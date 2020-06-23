@@ -7,20 +7,22 @@ import (
 )
 
 const (
-	winWidth  = 800
-	winHeight = 600
-	fontSize  = 4
-	scorePos1 = (winWidth / 2) - (winWidth * 0.15)
-	scorePos2 = (winWidth / 2) + (winWidth * 0.15)
-)
-
-const (
 	playing = iota
 	paused
 )
 
-var pixels = make([]byte, winWidth*winHeight*4)
-var state = paused
+var (
+	winWidth     = 0
+	winHeight    = 0
+	centerX      = 0
+	centerY      = 0
+	scorePos1    = 0
+	scorePos2    = 0
+	fontSize     = 5
+	paddleOffset = 50
+	pixels       = []byte{}
+	state        = paused
+)
 
 type color struct {
 	r, g, b, a byte
@@ -49,7 +51,16 @@ func clearScreen() {
 func main() {
 	sdl.Init(sdl.INIT_EVERYTHING)
 
-	window, _ := sdl.CreateWindow("Pong", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED, int32(winWidth), int32(winHeight), sdl.WINDOW_SHOWN)
+	winSize, _ := sdl.GetDisplayBounds(0)
+	winWidth = int(winSize.W)
+	winHeight = int(winSize.H)
+	centerX = winWidth / 2
+	centerY = winHeight / 2
+	pixels = make([]byte, winWidth*winHeight*4)
+	scorePos1 = centerX - (winWidth * 15 / 100)
+	scorePos2 = centerX + (winWidth * 15 / 100)
+
+	window, _ := sdl.CreateWindow("Pong", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED, int32(winWidth), int32(winHeight), sdl.WINDOW_FULLSCREEN)
 	defer window.Destroy()
 
 	renderer, _ := sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
@@ -58,9 +69,9 @@ func main() {
 	texture, _ := renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_STREAMING, int32(winWidth), int32(winHeight))
 	defer texture.Destroy()
 
-	p1 := paddle{position{25, 300}, 15, 60, 10, color{255, 255, 255, 1}, 0}
-	bot := paddle{position{775, 300}, 10, 60, 10, color{255, 255, 255, 1}, 0}
-	b := ball{position{400, 300}, 10, 5, 5, color{255, 255, 255, 1}}
+	p1 := paddle{position{paddleOffset, centerY}, 15, 60, 10, color{255, 255, 255, 1}, 0}
+	bot := paddle{position{winWidth - paddleOffset, centerY}, 10, 60, 10, color{255, 255, 255, 1}, 0}
+	b := ball{position{centerX, centerY}, 10, 5, 5, color{255, 255, 255, 1}}
 
 	keyState := sdl.GetKeyboardState()
 
@@ -69,18 +80,25 @@ func main() {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 			switch d := event.(type) {
 			case *sdl.MouseMotionEvent:
-				if d.YRel < 0 {
-					if p1.y-(p1.height/2) > 0 {
-						p1.y += int(d.YRel)
-					}
-				} else if d.YRel > 0 {
-					if p1.y+(p1.height/2) < winHeight {
-						p1.y += int(d.YRel)
+				if state == playing {
+					if d.YRel < 0 {
+						if p1.y-(p1.height/2) > 0 {
+							p1.y += int(d.YRel)
+						}
+					} else if d.YRel > 0 {
+						if p1.y+(p1.height/2) < winHeight {
+							p1.y += int(d.YRel)
+						}
 					}
 				}
 			case *sdl.QuitEvent:
 				return
 			}
+		}
+
+		// quit game
+		if keyState[sdl.SCANCODE_ESCAPE] != 0 {
+			return
 		}
 
 		// play/pause

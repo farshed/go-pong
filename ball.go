@@ -25,10 +25,14 @@ func (ball *ball) update(left, right *paddle) {
 	// update score and reset
 	if ball.x <= 0 {
 		right.score++
+		left.y = centerY
+		right.y = centerY
 		ball.reset()
 		return
 	} else if ball.x >= winWidth {
 		left.score++
+		left.y = centerY
+		right.y = centerY
 		ball.reset()
 		return
 	}
@@ -54,7 +58,7 @@ func (ball *ball) update(left, right *paddle) {
 
 func (ball *ball) reset() {
 	state = paused
-	ball.x = winWidth / 2
-	ball.y = winHeight / 2
+	ball.x = centerX
+	ball.y = centerY
 	ball.xv = -ball.xv
 }
