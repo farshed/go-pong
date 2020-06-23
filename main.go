@@ -85,7 +85,6 @@ func main() {
 
 		if state == playing {
 			p1.update(keyState)
-			// p1.autoPlay(&b)
 			bot.autoPlay(&b)
 			b.update(&p1, &bot)
 		}
