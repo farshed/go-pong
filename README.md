@@ -1,6 +1,6 @@
 ## Pong
 
-A rudimentary implementation of [Atari Pong](https://en.wikipedia.org/wiki/Pong) using Golang and SDL2.
+A rudimentary single-player implementation of [Atari Pong](https://en.wikipedia.org/wiki/Pong) using Golang and SDL2.
 
 ## Play
 
